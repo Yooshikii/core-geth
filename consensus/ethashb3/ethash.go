@@ -152,24 +152,15 @@ func memoryMapFile(file *os.File, write bool) (mmap.MMap, []uint32, error) {
 	return mem, view, nil
 }
 
-// ensureDirExists creates the directory if it doesn't exist.
-func ensureDirExists(dir string) error {
-	err := os.MkdirAll(dir, 0755)
-	if err != nil {
-		return fmt.Errorf("failed to create directory: %v", err)
-	}
-	return nil
-}
-
 // memoryMapAndGenerate tries to memory map a temporary file of uint32s for write
 // access, fill it with the data from a generator and then move it into the final
 // path requested.
+
 func memoryMapAndGenerate(path string, size uint64, lock bool, generator func(buffer []uint32)) (*os.File, mmap.MMap, []uint32, error) {
 	// Ensure the data folder exists
-	if err := ensureDirExists(filepath.Dir(path)); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
 		return nil, nil, nil, err
 	}
-
 	// Create a huge temporary empty file to fill with data
 	temp := path + "." + strconv.Itoa(rand.Int())
 
