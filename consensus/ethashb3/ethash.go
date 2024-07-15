@@ -355,7 +355,7 @@ func (c *cache) generate(dir string, limit int, lock bool, test bool) {
 				// Else the file is unrecognized (unknown name format), leave it alone.
 				continue
 			}
-			if e <= c.epoch-uint64(limit) || e > c.epoch+1 {
+			if e <= c.epoch-uint64(limit) || e > c.epoch+2 {
 				if err := os.Remove(file); err == nil {
 					logger.Debug("Deleted ethashb3 cache file", "target.epoch", e, "file", file)
 				} else {
@@ -468,7 +468,7 @@ func (d *dataset) generate(dir string, limit int, lock bool, test bool) {
 				// Else the file is unrecognized (unknown name format), leave it alone.
 				continue
 			}
-			if e <= d.epoch-uint64(limit) || e > d.epoch+1 {
+			if e <= d.epoch-uint64(limit) || e > d.epoch+2 {
 				if err := os.Remove(file); err == nil {
 					logger.Debug("Deleted ethashb3 full file", "target.epoch", e, "file", file)
 				} else {
